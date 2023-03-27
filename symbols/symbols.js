@@ -47,7 +47,7 @@ module.exports = [
   "UNIUSDT",
   "AVAXUSDT",
   "FTMUSDT",
-  "HNTUSDT",
+  // "HNTUSDT", //binan nadare
   "ENJUSDT",
   "RENUSDT",
   "KSMUSDT",
