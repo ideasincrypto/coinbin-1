@@ -17,7 +17,7 @@ const binInstance = axios.create({
   baseURL: binBaseUrl,
   httpsAgent: agent,
 });
-httpGetBinOrderBooks()
+// httpGetBinOrderBooks()
 async function httpGetBinOrderBooks() {
 
   const response = await binInstance.get("/ticker/bookTicker");

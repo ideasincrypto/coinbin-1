@@ -6,12 +6,12 @@ const { EventEmitter } = require("events");
 const eventEmmiter = new EventEmitter();
 intervalFunc();
 async function intervalFunc() {
-  // return setInterval(async function () {
+  return setInterval(async function () {
   const allOrderBooks = await getAllOrderBooks();
   const binOrderBooks = allOrderBooks.binOrderBooks;
   const coinOrderBooks = allOrderBooks.coinOrderBooks;
 
-  // console.log("allOrderBooks:>", allOrderBooks);
+  console.log("allOrderBooks:>", allOrderBooks);
   const rowsInfo = [];
   if (binOrderBooks.status == "fulfilled" && coinOrderBooks.status == "fulfilled") {
     symbols.forEach(function (symbol) {
@@ -23,23 +23,22 @@ async function intervalFunc() {
       );
       if (rowInfo) {
         rowsInfo.push(rowInfo);
-        console.log(rowInfo.rowData.percent,rowInfo.rowData.symbol);
+        // console.log(rowInfo.rowData.percent,rowInfo.rowData.symbol);
       }
     })
     // console.log("rowsInfo:>",rowsInfo);
   };
   //  console.log(rowsInfo);
-  // eventEmmiter.emit("diff", JSON.stringify(rowsInfo));
-  // }, 5000);
+  eventEmmiter.emit("diff", JSON.stringify(rowsInfo));
+  }, 5000);
 }
 
 async function getAllOrderBooks() {
   const binOrderBooksPromise = httpGetBinOrderBooks();
   const coinOrderBooksPromise = httpGetCoinOrderBooks();
 
-
   const promisesArray = [binOrderBooksPromise, coinOrderBooksPromise];
-  console.log(promisesArray);
+  // console.log(promisesArray);
   const allOrderBooks = await Promise.allSettled(promisesArray);
   const binOrderBooks = allOrderBooks[0];
   const coinOrderBooks = allOrderBooks[1];
@@ -47,15 +46,14 @@ async function getAllOrderBooks() {
 }
 
 function percentDiff(binOrderSymbol, coinOrderSymbol, symbol) {
-  console.log(binOrderSymbol, coinOrderSymbol, symbol);
-
+  // console.log(binOrderSymbol, coinOrderSymbol, symbol);
     if (binAskIsSmallercoinBid()) {
       const rowData = {};
       rowData["symbol"] = symbol;
       rowData["percent"] = calcPercentDiffBin();
       rowData["bin"] = binOrderSymbol["ask"];
-      rowData["coin"] = coinOrderSymbol["bin"];
-      rowData["value"] = Math.floor((coinOrderSymbol["bin"] - binOrderSymbol["ask"])*1000)/1000;
+      rowData["coin"] = coinOrderSymbol["bid"];
+      rowData["value"] = Math.floor((coinOrderSymbol["bid"] - binOrderSymbol["ask"])*1000)/1000;
       rowData["description"] = "";
       // console.log(rowData);
       return {
@@ -71,7 +69,7 @@ function percentDiff(binOrderSymbol, coinOrderSymbol, symbol) {
       rowData["percent"] = calcPercentDiffCoin();
       rowData["bin"] = binOrderSymbol["bid"];
       rowData["coin"] = coinOrderSymbol["ask"];
-      rowData["value"] = Math.floor((coinOrderSymbol["ask"] - binOrderSymbol["bid"])*1000)/1000;
+      rowData["value"] = Math.floor((binOrderSymbol["bid"] - coinOrderSymbol["ask"])*1000)/1000;
       rowData["description"] = "";
       return {
         statusbuy: "coin",

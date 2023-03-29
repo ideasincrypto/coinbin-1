@@ -24,7 +24,7 @@ function diffListener(rowsInfo) {
 let getOrderInterval
 server.on("upgrade", function (req, socket, head) {
   if (clients.size == 0) {
-    getOrderInterval = intervalFunc() // This function will be execute once 
+    getOrderInterval = intervalFunc() // This function will be execute once
   }
   wss.handleUpgrade(req, socket, head, async function (ws) {
     clients.add(ws);
@@ -43,10 +43,10 @@ wss.on("connection", async function connection(ws, req) {
     clients.delete(ws);
     eventEmmiter.removeListener("diff", diffListener);
     console.log("clients.size;",clients.size);
-    if (clients.size == 0) {
-      clearInterval(getOrderInterval)
-    }
- 
+    // if (clients.size == 0) {
+    //   clearInterval(getOrderInterval)
+    // }
+
     console.log("Client disconnected")
   });
   ws.on("error", function () {

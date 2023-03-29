@@ -11,7 +11,7 @@ const coinInstance = axios.create({
   httpsAgent: agent,
   // httpAgent: agent,
 });
-httpGetCoinOrderBooks()
+// httpGetCoinOrderBooks()
 async function httpGetCoinOrderBooks() {
 
   const response = await coinInstance.get("/market/ticker/all");
