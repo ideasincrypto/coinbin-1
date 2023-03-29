@@ -11,7 +11,7 @@ async function intervalFunc() {
   const binOrderBooks = allOrderBooks.binOrderBooks;
   const coinOrderBooks = allOrderBooks.coinOrderBooks;
 
-  console.log("allOrderBooks:>", allOrderBooks);
+  // console.log("allOrderBooks:>", allOrderBooks);
   const rowsInfo = [];
   if (binOrderBooks.status == "fulfilled" && coinOrderBooks.status == "fulfilled") {
     symbols.forEach(function (symbol) {
@@ -83,7 +83,7 @@ function percentDiff(binOrderSymbol, coinOrderSymbol, symbol) {
 
   function binAskIsSmallercoinBid() {
     // console.log(binOrderSymbol["ask"]);
-    return binOrderSymbol["ask"] < coinOrderSymbol["bin"];
+    return binOrderSymbol["ask"] < coinOrderSymbol["bid"];
   }
 
   function calcPercentDiffBin() {
